@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/reveal.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/theme/white.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/lib/css/zenburn.min.css"/>
+    <link rel="stylesheet" href="presentation.css"/>
     <title>Spark ML meets Real Estate</title>
 </head>
 <body>
@@ -14,51 +16,280 @@
         </section>
         <section>
             <section>The Problem at Hand</section>
-            <section>Toprop</section>
-            <section>Classification Problem</section>
-            <section>Classifier App</section>
-            <section>Labeled Examples</section>
-        </section>
-
-        <section>
-            <section>Brief Intro Into ML Based Classification</section>
-            <section>Supervised Learning</section>
-            <section>Train-Test-Validation-Split</section>
             <section>
-                <section>Text Classification</section>
-                <section>Bag of N-Grams</section>
-                <section>TF-IDF</section>
+                <h3>Toprop</h3>
             </section>
-            <section>Logistic Regression</section>
-            <section>Hyperparameter Tuning</section>
+            <section>
+                <h3>Crawling Pipeline</h3>
+                <img src="media/crawling-pipeline.png" width="80%" style="border: none; box-shadow: none">
+            </section>
+            <section>
+                <h3>Classification Problem</h3>
+                <img src="media/classifications.png" width="80%" style="border: none; box-shadow: none">
+            </section>
+
+            <section>
+                <h3>The Classes</h3>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>PropertyType</td>
+                        <td>3</td>
+                        <td>Residential, Commercial, Misc</td>
+                    </tr>
+                    <tr>
+                        <td>PropertySubType</td>
+                        <td>15</td>
+                        <td>Apartment, AtticFlat, Lot, SingleFamilyHouse, Villa, Premise, Office, Store, Garage, ...</td>
+                    </tr>
+                    <tr>
+                        <td>ListingCategory</td>
+                        <td>2</td>
+                        <td>Lease, Purchase</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p>
+                </p>
+            </section>
+
+            <section>
+                <h3>Classifier App</h3>
+
+                <ul>
+                    <li>Mechanical Turk was not an option</li>
+                    <li>Uses reverse proxy and some custom hacks to make HTML look good</li>
+                    <li>Non trivial development effort of its own</li>
+                    <li>Stored in Postgres</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Labeled Examples</h3>
+                <ul>
+                    <li>
+                        Total: ~48000 (~38000 for training, ~10000 for test)
+                    </li>
+                    <li>
+                        42 different labels
+                    </li>
+                    <li>
+                        Majority class: ~19% (Residential, Apartment, Purchase)
+                    </li>
+                    <li>
+                        Spam: ~6%
+                    </li>
+                    <li>
+                        Set is fairly unbalanced: <0.01% (Garage, Purchase, Lease)
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Baselines accuracies</h3>
+                <ul>
+                    <li>Random classifier:  2.5%</li>
+                    <li>Majority classifier: 19%</li>
+                    <li>Human: 92.5% - 96%</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Probably should have used tags</h3>
+            </section>
         </section>
 
         <section>
-            <section>Brief Intro Into Spark ML</section>
-            <section>ML vs MLIB</section>
-            <section>DataFrame vs RDD</section>
-            <section>Transformers, Estimators & Pipelines</section>
+            <section>
+                <h2>Implementation Details</h2>
+            </section>
+
+            <section>
+                <h3>To Spark or not to Spark</h3>
+            </section>
+
+            <section>
+                <h3>Spark Mlib vs. ML</h3>
+                <p>RDDs vs DataFrames and DataSet</p>
+            </section>
+
+            <section>
+                <h3>Bird Eyes View on Spark ML</h3>
+                <img src="media/estimators-and-pipelines.png" style="border: none; box-shadow: none;">
+            </section>
+
+            <section id="how-this-looks-in-spark">
+                <h2>How this looks in Spark</h2>
+                <pre>
+                    <code class="scala" data-trim data-source-file="src/main/scala/SimpleMlPipeline.scala" data-snip="snip">
+                    </code>
+                </pre>
+            </section>
+
+            <section>
+                <h3>Classical ML classification pipeline</h3>
+                <img src="media/classification-flow.png" style="border: none; box-shadow: none">
+            </section>
+
+
+            <section>
+                <h3>Based on Bag of N-Grams</h3>
+                <pre>
+                    <code class="scala" data-trim data-source-file="src/main/scala/bag-of-ngrams.sc" data-snip="snip">
+                    </code>
+                </pre>
+
+                <p class="monospaced">
+                    The cat ate the dog:
+                </p>
+
+                <p class="monospaced">
+                    'the' -> 2, 'the dog' -> 1, 'ate the' -> 1, 'the cat' -> 1,
+                    'dog' -> 1, 'dog ate' -> 1, 'ate' -> 1, 'cat' -> 1
+                </p>
+            </section>
+
+            <section>
+                <h3>Unit Extraction</h3>
+                <p class="monospaced">
+                    This flat is 45 m² and costs 350.000 €
+                </p>
+
+                <p></p>
+
+                <p class="monospaced">
+                    this flat is sqm::Interval(25.0,50.0) and costs euros::Interval(250000.0,500000.0)
+                </p>
+            </section>
+
+            <section id="syn-normalization">
+                <h3>Synonym Normalization</h3>
+
+                <p class="monospaced">
+                    Dg-Wohnung ==> syn::DgWohnung
+                </p>
+                <p class="monospaced">
+                    Dachgeschosswohnung ==> syn::DgWohnung
+                </p>
+                <p class="monospaced">
+                    Dachgeschossmaisonette ==> syn::DgWohnung
+                </p>
+                <p class="monospaced">
+                    Dachgetagenwohnung ==> syn::DgWohnung
+                </p>
+            </section>
+
+            <section id="stemming">
+                <h3>Stemming and Splitting</h3>
+
+                <div class="left">
+                    <p class="monospaced">
+                        Küche ==> kuch
+                    </p>
+                    <p class="monospaced">
+                        Küchen ==> kuch
+                    </p>
+                    <p class="monospaced">
+                        Haus ==> haus
+                    </p>
+                    <p class="monospaced">
+                        Häuser ==> haus
+                    </p>
+                </div>
+
+                <div class="right">
+                    <p class="monospaced">
+                        Dachgeschosstraum ==> dachgeschosstraum dach geschoß traum
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Accuracies</h3>
+            </section>
+
         </section>
 
         <section>
-            <section>The Implementation</section>
-            <section>Feature Extraction</section>
-            <section>Model Tuning & Persistence</section>
-            <section>Integration Into Events Pipeline</section>
-        </section>
+            <section>
+                <h2>Summary and Findings</h2>
+            </section>
 
-        <section>
-            <section>Summary & Takeaways</section>
-            <section>Know your Data</section>
-            <section>Classes vs Tags</section>
-            <section>Prefer Spark ML</section>
-            <section>Set Hyperparameters Carefully</section>
+            <section>
+                <h3>Be aware of Sparks complexity</h3>
+            </section>
+
+            <section>
+                <h3>Consider training your model on tags</h3>
+            </section>
+
+            <section>
+                <h3>Don't forget hyperparemter tuning</h3>
+            </section>
+
+            <section>
+                <h3>And above all: Have fun!</h3>
+            </section>
         </section>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/lib/js/head.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/js/reveal.min.js"></script>
 <script>
-    Reveal.initialize();
+    Reveal.initialize({
+        math: {
+            config: 'TeX-AMS_HTML-full',
+            mathjax: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js"
+        },
+        dependencies: [
+            {
+                src: "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/plugin/highlight/highlight.min.js",
+                async: true,
+                callback: function() {
+                    $('pre code[data-source-file]').each(function (i, block) {
+                        var sourceFile = block.getAttribute('data-source-file');
+                        $.get('http://localhost:8000/' + sourceFile, function (source) {
+                            var snip = block.getAttribute('data-snip');
+                            if (!snip) {
+                                $(block).html(source);
+                            } else {
+                                var snipped = '';
+                                var lines = source.split('\n');
+                                var inSnipped= false;
+                                var marker = '---' + snip + '---';
+                                for (var i = 0; i < lines.length; ++i) {
+                                    var line = lines[i];
+                                    var containsMarker = line.includes(marker);
+                                    if (!inSnipped) {
+                                        if (containsMarker) {
+                                            inSnipped = true;
+                                        }
+                                    } else {
+                                        if (containsMarker) {
+                                            inSnipped = false
+                                        } else {
+                                            snipped += (snipped != '' ? '\n' : '') + line;
+                                        }
+                                    }
+
+                                }
+
+                                $(block).html(snipped);
+                            }
+                        });
+                    });
+
+                    hljs.initHighlightingOnLoad();
+                }
+            },
+            {
+                src: "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/plugin/math/math.min.js",
+                async: true
+            }
+        ]
+    });
 </script>
 </body>
 </html>

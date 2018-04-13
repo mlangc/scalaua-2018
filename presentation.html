@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/theme/white.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/lib/css/zenburn.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/theme/sky.min.css" integrity="sha256-5Wuqy8aSzReNhqwX5eDQlDZkMT18OJMzvXthwHGKl4o=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" integrity="sha256-Zd1icfZ72UBmsId/mUcagrmN7IN5Qkrvh75ICHIQVTk=" crossorigin="anonymous" />
     <link rel="stylesheet" href="presentation.css"/>
     <title>Spark ML meets Real Estate</title>
 </head>
@@ -204,8 +204,45 @@
                 </div>
             </section>
 
-            <section>
+            <section id="accuracies">
                 <h3>Accuracies</h3>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <td>r. t.</td><td>stems</td><td>syns</td><td>clean</td><td>split</td><td>ngr.</td><td>acc</td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>no</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>2</td><td>89.8%</td>
+                    </tr>
+                    <tr>
+                        <td>yes</td><td>no</td><td>yes</td><td>yes</td><td>yes</td><td>2</td><td>90.0%</td>
+                    </tr>
+                    <tr>
+                        <td>yes</td><td>yes</td><td>no</td><td>yes</td><td>yes</td><td>2</td><td>89.8%</td>
+                    </tr>
+                    <tr>
+                        <td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>2</td><td>90.1%</td>
+                    </tr>
+                    <tr>
+                        <td>yes</td><td>yes</td><td>yes</td><td>no</td><td>yes</td><td>2</td><td>89.4%</td>
+                    </tr>
+                    <tr>
+                        <td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>1</td><td>0.0%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h3>Hyper Parameter Tuning</h3>
+            </section>
+
+            <section>
+                <h3></h3>
             </section>
 
         </section>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/reveal.min.css">
@@ -14,10 +14,40 @@
         <section>
             <h1>Spark ML Meets Real Estate</h1>
         </section>
+
         <section>
-            <section>The Problem at Hand</section>
+            <h2>Who am I?</h2>
+
+            <p>
+                Matthias Langer (m.langer798@gmail.com)
+            </p>
+
+            <div style="width: 60%; margin: auto">
+                <a style="line-height: 4em;" href="https://github.com/mlangc">
+                    <img alt="mlangc" class="avatar width-full rounded-2"
+                         src="https://avatars2.githubusercontent.com/u/7326646?v=3&amp;s=460" width="100"
+                         style="float: left">
+                    mlangc on
+                    <img class="emoji" title=":octocat:" alt=":octocat:"
+                         src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png" width="100"
+                         align="absmiddle" style="float: right">
+                </a>
+            </div>
+
+        </section>
+        <section>
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+                <img style="width: 80%; height: auto; border: none;" src="media/irian.png">
+            </div>
+        </section>
+
+        </section>
+        <section>
             <section>
-                <h3>Toprop</h3>
+                <h2>The Problem at Hand</h2>
+            </section>
+            <section>
+                <img style="width: 80%; height: auto; border: none; box-shadow: none; background: none;" src="media/toprop.svg">
             </section>
             <section>
                 <h3>Crawling Pipeline</h3>
@@ -204,47 +234,120 @@
                 </div>
             </section>
 
-            <section id="accuracies">
-                <h3>Accuracies</h3>
+            <section id="accuracies1">
+                <h3>Accuracies Total</h3>
 
                 <table>
                     <thead>
                     <tr>
-                        <td>r. t.</td><td>stems</td><td>syns</td><td>clean</td><td>split</td><td>ngr.</td><td>acc</td>
+                        <td>r. t.</td><td>syns</td><td>clean</td><td>ngr.</td><td>acc</td>
                     </tr>
                     </thead>
 
                     <tbody>
                     <tr>
-                        <td>no</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>2</td><td>89.8%</td>
+                        <td>yes</td><td>yes</td><td>yes</td><td>1</td><td>89.2%</td>
                     </tr>
                     <tr>
-                        <td>yes</td><td>no</td><td>yes</td><td>yes</td><td>yes</td><td>2</td><td>90.0%</td>
+                        <td>yes</td><td>yes</td><td>no</td><td>2</td><td>89.4%</td>
                     </tr>
                     <tr>
-                        <td>yes</td><td>yes</td><td>no</td><td>yes</td><td>yes</td><td>2</td><td>89.8%</td>
+                        <td>no</td><td>yes</td><td>yes</td><td>2</td><td>89.8%</td>
                     </tr>
                     <tr>
-                        <td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>2</td><td>90.1%</td>
+                        <td>yes</td><td>no</td><td>yes</td><td>2</td><td>89.8%</td>
                     </tr>
                     <tr>
-                        <td>yes</td><td>yes</td><td>yes</td><td>no</td><td>yes</td><td>2</td><td>89.4%</td>
+                        <td>yes</td><td>yes</td><td>yes</td><td>3</td><td>90.0%</td>
                     </tr>
                     <tr>
-                        <td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td><td>1</td><td>0.0%</td>
+                        <td>yes</td><td>yes</td><td>yes</td><td>2</td><td>90.1%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="accuracies2">
+                <h3>Errors Lease/Purchase</h3>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <td>r. t.</td><td>syns</td><td>clean</td><td>ngr.</td><td>err</td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>yes</td><td>yes</td><td>yes</td><td>1</td><td>0.46%</td>
+                    </tr>
+                    <tr>
+                        <td>yes</td><td>yes</td><td>no</td><td>2</td><td>0.39%</td>
+                    </tr>
+                    <tr>
+                        <td>no</td><td>yes</td><td>yes</td><td>2</td><td>0.49%</td>
+                    </tr>
+                    <tr>
+                        <td>yes</td><td>no</td><td>yes</td><td>2</td><td>0.36%</td>
+                    </tr>
+                    <tr>
+                        <td>yes</td><td>yes</td><td>yes</td><td>3</td><td>0.34%</td>
+                    </tr>
+                    <tr>
+                        <td>yes</td><td>yes</td><td>yes</td><td>2</td><td>0.36%</td>
                     </tr>
                     </tbody>
                 </table>
             </section>
 
             <section>
-                <h3>Hyper Parameter Tuning</h3>
+                <h3>Train-Validation-Test Split</h3>
+                <img src="media/train-validation-test-split.png" width="80%" style="border: none; box-shadow: none">
+            </section>
+
+            <section id="feature-tuning">
+                <h3>Feature Tuning</h3>
+                <pre>
+                <code class="scala" data-trim data-source-file="src/main/scala/DemonstrateFeatureTuning.scala" data-snip="snip">
+                </code>
+                </pre>
             </section>
 
             <section>
-                <h3></h3>
+                <h3>Hyper Parameter Tuning</h3>
+                <pre>
+                <code class="scala" data-trim data-source-file="src/main/scala/DemonstrateHyperParamTuning.scala" data-snip="snip">
+                </code>
+                </pre>
             </section>
 
+            <section>
+                <h3>Hyper Params Are Relevant</h3>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <td></td><td>L/P Err.</td> <td>Total Acc.</td><td>Total Err.</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Defaults</td><td>0.075%</td><td>87.0%</td><td>13.0%</td>
+                    </tr>
+                    <tr>
+                        <td>Tuned</td><td>0.036%</td><td>90.1%</td><td>9.9%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h3>Choosing between different Algorithms</h3>
+                <pre>
+                <code class="scala" data-trim data-source-file="src/main/scala/DemonstrateAlgSelection.scala" data-snip="snip">
+                </code>
+                </pre>
+            </section>
         </section>
 
         <section>
@@ -258,6 +361,10 @@
 
             <section>
                 <h3>Consider training your model on tags</h3>
+            </section>
+
+            <section>
+                <h3>Apply domain knowledge</h3>
             </section>
 
             <section>
@@ -296,9 +403,11 @@
                                 var lines = source.split('\n');
                                 var inSnipped= false;
                                 var marker = '---' + snip + '---';
+                                var margin = -1;
                                 for (var i = 0; i < lines.length; ++i) {
                                     var line = lines[i];
                                     var containsMarker = line.includes(marker);
+
                                     if (!inSnipped) {
                                         if (containsMarker) {
                                             inSnipped = true;
@@ -307,7 +416,11 @@
                                         if (containsMarker) {
                                             inSnipped = false
                                         } else {
-                                            snipped += (snipped != '' ? '\n' : '') + line;
+                                            if (margin < 0) {
+                                                margin = line.search(/\S|$/);
+                                            }
+
+                                            snipped += (snipped != '' ? '\n' : '') + line.substr(margin);
                                         }
                                     }
 

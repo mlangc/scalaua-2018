@@ -1,32 +1,26 @@
-import org.apache.spark.ml.Pipeline
-import org.apache.spark.ml.tuning.CrossValidator
+import org.apache.spark.ml.classification.LogisticRegression
+import org.apache.spark.ml.evaluation.BinaryClassificationEvaluator
 import org.apache.spark.ml.tuning.ParamGridBuilder
+import org.apache.spark.ml.tuning.TrainValidationSplit
 
 import at.irian.bibi.mining.classifier.spark.ml.SparkMlModule
-import at.irian.bibi.mining.classifier.spark.ml.TrainTestSplit
 
 object DemonstrateHyperParamTuning extends SparkMlModule {
-  import preconfiguredTransformers._
-  import preconfiguredEstimators._
+  val trainingData = labeledDataLoader.load()
 
-  val trainingData = TrainTestSplit.forTraining(labeledDataLoader.load())
-
-  val pipeline = new Pipeline()
-    .setStages(Array(termsExtractor, countVectorizer, idf, propertyType))
+  /*---snip---*/
+  val logReg = new LogisticRegression()
 
   val paramGrid = new ParamGridBuilder()
-    .addGrid(termsExtractor.stemmingEnabled, Array(true, false))
-    .addGrid(termsExtractor.nGrams, Array(1, 2, 3))
+    .addGrid(logReg.regParam, Array(1e-8, 1e-6, 1e-4))
+    .addGrid(logReg.elasticNetParam, Array(0.0, 0.5, 1.0))
     .build()
 
-  val crossValidator = new CrossValidator()
-    .setEstimator(pipeline)
-    .setNumFolds(5)
-    .setEvaluator(evaluator)
+  val trainValidationSplit = new TrainValidationSplit()
+    .setEstimator(logReg)
+    .setEstimatorParamMaps(paramGrid)
+    .setEvaluator(new BinaryClassificationEvaluator())
 
-  crossValidator.fit()
-
-
-
-
+  val tunedModel = trainValidationSplit.fit(trainingData)
+  /*---snip---*/
 }

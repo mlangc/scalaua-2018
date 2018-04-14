@@ -2,9 +2,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/reveal.min.css" integrity="sha256-ol2N5Xr80jdDqxK0lte3orKGb9Ja3sOnpAUV7TTADmg=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/theme/sky.min.css" integrity="sha256-5Wuqy8aSzReNhqwX5eDQlDZkMT18OJMzvXthwHGKl4o=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" integrity="sha256-Zd1icfZ72UBmsId/mUcagrmN7IN5Qkrvh75ICHIQVTk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atelier-lakeside-light.min.css" integrity="sha256-kAzNmTwKOG0IyUkAOyKkvDGD5BDZ7vCpV69XkWHczPY=" crossorigin="anonymous" />
     <link rel="stylesheet" href="presentation.css"/>
     <title>Spark ML meets Real Estate</title>
 </head>
@@ -58,14 +58,14 @@
                 <img src="media/classifications.png" width="80%" style="border: none; box-shadow: none">
             </section>
 
-            <section>
+            <section id="classes">
                 <h3>The Classes</h3>
                 <table>
                     <tbody>
                     <tr>
                         <td>PropertyType</td>
                         <td>3</td>
-                        <td>Residential, Commercial, Misc</td>
+                        <td>Residential, Commercial, Miscellaneous</td>
                     </tr>
                     <tr>
                         <td>PropertySubType</td>
@@ -75,7 +75,7 @@
                     <tr>
                         <td>ListingCategory</td>
                         <td>2</td>
-                        <td>Lease, Purchase</td>
+                        <td>Rent, Purchase</td>
                     </tr>
                     </tbody>
                 </table>
@@ -126,6 +126,11 @@
 
             <section>
                 <h3>Probably should have used tags</h3>
+
+                <ul>
+                    <li>More flexible</li>
+                    <li>Easier to label</li>
+                </ul>
             </section>
         </section>
 
@@ -144,6 +149,11 @@
             </section>
 
             <section>
+                <h3>Classical ML classification pipeline</h3>
+                <img src="media/classification-flow.png" style="border: none; box-shadow: none">
+            </section>
+
+            <section>
                 <h3>Bird Eyes View on Spark ML</h3>
                 <img src="media/estimators-and-pipelines.png" style="border: none; box-shadow: none;">
             </section>
@@ -155,12 +165,6 @@
                     </code>
                 </pre>
             </section>
-
-            <section>
-                <h3>Classical ML classification pipeline</h3>
-                <img src="media/classification-flow.png" style="border: none; box-shadow: none">
-            </section>
-
 
             <section>
                 <h3>Based on Bag of N-Grams</h3>
@@ -192,6 +196,7 @@
                 </p>
             </section>
 
+            <!--
             <section id="syn-normalization">
                 <h3>Synonym Normalization</h3>
 
@@ -208,97 +213,67 @@
                     Dachgetagenwohnung ==> syn::DgWohnung
                 </p>
             </section>
+            -->
 
-            <section id="stemming">
-                <h3>Stemming and Splitting</h3>
+            <section id="cleaning">
+                <h3>HTML Cleaning</h3>
 
-                <div class="left">
-                    <p class="monospaced">
-                        Küche ==> kuch
-                    </p>
-                    <p class="monospaced">
-                        Küchen ==> kuch
-                    </p>
-                    <p class="monospaced">
-                        Haus ==> haus
-                    </p>
-                    <p class="monospaced">
-                        Häuser ==> haus
-                    </p>
-                </div>
+                <p>
+                    Removes potentially misleading parts of HTML
+                </p>
 
-                <div class="right">
-                    <p class="monospaced">
-                        Dachgeschosstraum ==> dachgeschosstraum dach geschoß traum
-                    </p>
-                </div>
             </section>
 
-            <section id="accuracies1">
-                <h3>Accuracies Total</h3>
+            <section id="idf">
+                <h3>Feature Weights</h3>
 
+                <p>
+                    $$idf(t,C) := \log \frac{|C| + 1}{df(t,C) + 1}$$
+                </p>
+
+                <p>
+                    $C$ ... Corpus, $df$ ... document frequency
+                </p>
+            </section>
+
+            <section id="accuracies">
                 <table>
-                    <thead>
-                    <tr>
-                        <td>r. t.</td><td>syns</td><td>clean</td><td>ngr.</td><td>acc</td>
-                    </tr>
-                    </thead>
-
                     <tbody>
+                    <tr class="no-border table-part-1">
+                        <td></td> <td colspan="5" style="text-align: right;">Accuracies Total</td>
+                    </tr>
+                    <tr class="table-part-1">
+                        <td></td><td>r. t.</td><td>wei.</td><td>clean</td><td>ngr.</td><td>err</td>
+                    </tr>
+
                     <tr>
-                        <td>yes</td><td>yes</td><td>yes</td><td>1</td><td>89.2%</td>
+                        <td>0.46%</td><td>yes</td><td>yes</td><td>yes</td><td class="focus">1</td><td>10.8%</td>
                     </tr>
                     <tr>
-                        <td>yes</td><td>yes</td><td>no</td><td>2</td><td>89.4%</td>
+                        <td>0.39%</td><td>yes</td><td>yes</td><td class="focus">no</td><td>2</td><td>10.6%</td>
                     </tr>
                     <tr>
-                        <td>no</td><td>yes</td><td>yes</td><td>2</td><td>89.8%</td>
+                        <td>0.49%</td><td class="focus">no</td><td>yes</td><td>yes</td><td>2</td><td>10.2%</td>
                     </tr>
                     <tr>
-                        <td>yes</td><td>no</td><td>yes</td><td>2</td><td>89.8%</td>
+                       <td>0.41%</td><td>yes</td><td class="focus">no</td><td>yes</td><td>2</td><td>10.7%</td>
                     </tr>
                     <tr>
-                        <td>yes</td><td>yes</td><td>yes</td><td>3</td><td>90.0%</td>
+                       <td>0.34%</td><td>yes</td><td>yes</td><td>yes</td><td class="focus">3</td><td>10.0%</td>
                     </tr>
                     <tr>
-                        <td>yes</td><td>yes</td><td>yes</td><td>2</td><td>90.1%</td>
+                        <td>0.36%</td><td>yes</td><td>yes</td><td>yes</td><td>2</td><td>9.9%</td>
+                    </tr>
+                    <tr class="no-border table-part-2">
+                        <td>err</td><td>r. t.</td><td>wei.</td><td>clean</td><td>ngr.</td><td></td>
+                    </tr>
+                    <tr class="table-part-2">
+                        <td colspan="5">Accuracies Rent/Purchase</td>
                     </tr>
                     </tbody>
                 </table>
             </section>
 
-            <section id="accuracies2">
-                <h3>Errors Lease/Purchase</h3>
-
-                <table>
-                    <thead>
-                    <tr>
-                        <td>r. t.</td><td>syns</td><td>clean</td><td>ngr.</td><td>err</td>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr>
-                        <td>yes</td><td>yes</td><td>yes</td><td>1</td><td>0.46%</td>
-                    </tr>
-                    <tr>
-                        <td>yes</td><td>yes</td><td>no</td><td>2</td><td>0.39%</td>
-                    </tr>
-                    <tr>
-                        <td>no</td><td>yes</td><td>yes</td><td>2</td><td>0.49%</td>
-                    </tr>
-                    <tr>
-                        <td>yes</td><td>no</td><td>yes</td><td>2</td><td>0.36%</td>
-                    </tr>
-                    <tr>
-                        <td>yes</td><td>yes</td><td>yes</td><td>3</td><td>0.34%</td>
-                    </tr>
-                    <tr>
-                        <td>yes</td><td>yes</td><td>yes</td><td>2</td><td>0.36%</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </section>
 
             <section>
                 <h3>Train-Validation-Test Split</h3>
@@ -313,7 +288,7 @@
                 </pre>
             </section>
 
-            <section>
+            <section id="hyper-param-tuning">
                 <h3>Hyper Parameter Tuning</h3>
                 <pre>
                 <code class="scala" data-trim data-source-file="src/main/scala/DemonstrateHyperParamTuning.scala" data-snip="snip">
@@ -341,7 +316,7 @@
                 </table>
             </section>
 
-            <section>
+            <section id="choose-alg">
                 <h3>Choosing between different Algorithms</h3>
                 <pre>
                 <code class="scala" data-trim data-source-file="src/main/scala/DemonstrateAlgSelection.scala" data-snip="snip">
@@ -360,11 +335,21 @@
             </section>
 
             <section>
+                <h3>Prefer ML over MLIB</h3>
+            </section>
+
+            <section>
                 <h3>Consider training your model on tags</h3>
             </section>
 
             <section>
                 <h3>Apply domain knowledge</h3>
+
+                <ul>
+                    <li>Synonyms</li>
+                    <li>Range tags</li>
+                    <li>HTML cleaning</li>
+                </ul>
             </section>
 
             <section>

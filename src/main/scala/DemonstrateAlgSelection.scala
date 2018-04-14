@@ -14,6 +14,8 @@ object DemonstrateAlgSelection extends SparkMlModule {
   /*---snip---*/
   val logRegression = new LogisticRegression()
   val svmEstimator = new LinearSVC()
+
+  // See https://stackoverflow.com/questions/48971317/how-to-use-crossvalidator-to-choose-between-different-models
   val delegatingEstimator = new DelegatingEstimator(
     logRegression, svmEstimator)
 

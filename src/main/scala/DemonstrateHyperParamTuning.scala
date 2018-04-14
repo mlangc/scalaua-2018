@@ -11,16 +11,19 @@ object DemonstrateHyperParamTuning extends SparkMlModule {
   /*---snip---*/
   val logReg = new LogisticRegression()
 
+  // Assemble params to evaluate:
   val paramGrid = new ParamGridBuilder()
     .addGrid(logReg.regParam, Array(1e-8, 1e-6, 1e-4))
     .addGrid(logReg.elasticNetParam, Array(0.0, 0.5, 1.0))
     .build()
 
+  // Configure train validation split:
   val trainValidationSplit = new TrainValidationSplit()
     .setEstimator(logReg)
     .setEstimatorParamMaps(paramGrid)
     .setEvaluator(new BinaryClassificationEvaluator())
 
+  // Choose best set of params:
   val tunedModel = trainValidationSplit.fit(trainingData)
   /*---snip---*/
 }

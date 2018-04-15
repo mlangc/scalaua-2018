@@ -1,18 +1,18 @@
 .left {
-    left:-8.33%;
+    left: -8.33%;
     text-align: left;
     float: left;
-    width:50%;
-    z-index:-10;
+    width: 50%;
+    z-index: -10;
 }
 
 .right {
-    left:31.25%;
+    left: 31.25%;
     top: 75px;
     float: right;
     text-align: right;
-    z-index:-10;
-    width:50%;
+    z-index: -10;
+    width: 50%;
 }
 
 .reveal .monospaced {
@@ -31,24 +31,24 @@ pre code span.hljs-keyword {
     font-weight: bold;
 }
 
-#accuracies table tr.no-border td {
+#errors table tr.no-border td {
     border: none;
 }
 
-#accuracies .table-part-1, #accuracies tr:not(.table-part-2) td:last-child {
+#errors .table-part-1, #errors tr:not(.table-part-2) td:last-child {
     color: #820b77;
     border-color: black;
 }
 
-#accuracies tr.table-part-1 td {
+#errors tr.table-part-1 td {
     border-color: black;
 }
 
-#accuracies .table-part-2, #accuracies tr:not(.table-part-1) td:first-child {
+#errors .table-part-2, #errors tr:not(.table-part-1) td:first-child {
     color: darkblue;
 }
 
-#accuracies table tr td.focus {
+#errors table tr td.focus {
     border-color: black;
     color: #a20101;
 }
@@ -61,3 +61,15 @@ body .reveal pre {
     color: black;
     max-height: 455px;
 }
+
+#train-validation-test div img.fragment {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.reveal section img {
+    border: none;
+    box-shadow: none;
+}
+

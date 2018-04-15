@@ -11,11 +11,13 @@ object SimpleMlPipeline extends SparkMlModule {
 
   /*---snip---*/
   val featureExtraction = new Pipeline()
-    .setStages(Array(termsExtractor,
-      countVectorizer, idf, termRelevance))
+    .setStages(Array(termsExtractor, countVectorizer))
+
+  val featureTranformations = new Pipeline()
+    .setStages(Array(idf, termRelevance))
 
   val pipeline = new Pipeline()
-    .setStages(Array(featureExtraction,
+    .setStages(Array(featureExtraction, featureTranformations,
       classifiers.propertyType,
       classifiers.propertySubType,
       classifiers.listingCategory))

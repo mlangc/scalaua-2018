@@ -11,10 +11,11 @@
 <body>
 <div class="reveal">
     <div class="slides">
-        <section>
+        <section id="start">
             <h1>Spark ML Meets Real Estate</h1>
         </section>
 
+        <!--
         <section>
             <h2>Who am I?</h2>
 
@@ -33,8 +34,9 @@
                          align="absmiddle" style="float: right">
                 </a>
             </div>
-
         </section>
+        -->
+
         <section>
             <div style="display: flex; justify-content: space-around; align-items: center;">
                 <img style="width: 80%; height: auto; border: none;" src="media/irian.png">
@@ -183,8 +185,8 @@
                 </p>
             </section>
 
-            <section>
-                <h3>Unit Extraction</h3>
+            <section id="interval-tokens">
+                <h3>Interval Tokens</h3>
                 <p class="monospaced">
                     This flat is 45 m² and costs 350.000 €
                 </p>
@@ -231,16 +233,24 @@
                     $$idf(t,C) := \log \frac{|C| + 1}{df(t,C) + 1}$$
                 </p>
 
-                <p>
-                    $C$ ... Corpus, $df$ ... document frequency
-                </p>
+                <div style="width: 80%; margin: auto">
+                    <div class="left">
+                        <p>$C$ ... Corpus</p>
+                    </div>
+                    <div class="right">
+                        <p>$t$ ... Term</p>
+                    </div>
+                    <div style="float: left;">
+                        <p>$df$ ... # of docs in $C$ containing $t$</p>
+                    </div>
+                </div>
             </section>
 
-            <section id="accuracies">
+            <section id="errors">
                 <table>
                     <tbody>
                     <tr class="no-border table-part-1">
-                        <td></td> <td colspan="5" style="text-align: right;">Accuracies Total</td>
+                        <td></td> <td colspan="5" style="text-align: right;">Errors Total</td>
                     </tr>
                     <tr class="table-part-1">
                         <td></td><td>r. t.</td><td>wei.</td><td>clean</td><td>ngr.</td><td>err</td>
@@ -268,16 +278,20 @@
                         <td>err</td><td>r. t.</td><td>wei.</td><td>clean</td><td>ngr.</td><td></td>
                     </tr>
                     <tr class="table-part-2">
-                        <td colspan="5">Accuracies Rent/Purchase</td>
+                        <td colspan="5">Errors Rent/Purchase</td>
                     </tr>
                     </tbody>
                 </table>
             </section>
 
 
-            <section>
+            <section id="train-validation-test">
                 <h3>Train-Validation-Test Split</h3>
-                <img src="media/train-validation-test-split.png" width="80%" style="border: none; box-shadow: none">
+                <div style="position: relative; width: 700px; height: 220px; margin: 100px auto" >
+                    <img src="media/train-validation-test-split1.png" data-fragment-index="0" class="fragment current-visible">
+                    <img src="media/train-validation-test-split2.png" data-fragment-index="1" class="fragment current-visible">
+                    <img src="media/train-validation-test-split1.png" data-fragment-index="2" class="fragment current-visible">
+                </div>
             </section>
 
             <section id="feature-tuning">
@@ -346,18 +360,35 @@
                 <h3>Apply domain knowledge</h3>
 
                 <ul>
-                    <li>Synonyms</li>
-                    <li>Range tags</li>
+                    <li>Interval tokens</li>
                     <li>HTML cleaning</li>
                 </ul>
             </section>
 
             <section>
-                <h3>Don't forget hyperparemter tuning</h3>
+                <h3>Don't forget hyperparemter tuning and feature weights</h3>
             </section>
 
-            <section>
+            <section id="end">
                 <h3>And above all: Have fun!</h3>
+
+                <div style="margin-top: 200px;">
+                    <p>
+                        Matthias Langer (m.langer798@gmail.com)
+                    </p>
+
+                    <div style="width: 60%; margin: auto">
+                        <a style="line-height: 4em;" href="https://github.com/mlangc">
+                            <img alt="mlangc" class="avatar width-full rounded-2"
+                                 src="https://avatars2.githubusercontent.com/u/7326646?v=3&amp;s=460" width="100"
+                                 style="float: left">
+                            mlangc on
+                            <img class="emoji" title=":octocat:" alt=":octocat:"
+                                 src="https://assets-cdn.github.com/images/modules/logos_page/Octocat.png" width="100"
+                                 align="absmiddle" style="float: right">
+                        </a>
+                    </div>
+                </div>
             </section>
         </section>
     </div>

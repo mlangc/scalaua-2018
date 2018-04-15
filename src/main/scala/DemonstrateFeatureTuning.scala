@@ -18,7 +18,7 @@ object DemonstrateFeatureTuning extends SparkMlModule {
 
   // Assemble params to try:
   val paramGrid = new ParamGridBuilder()
-    .addGrid(termsExtractor.stemmingEnabled, Array(true, false))
+    .addGrid(termsExtractor.htmlCleanerEnabled, Array(true, false))
     .addGrid(termsExtractor.nGrams, Array(1, 2, 3))
     .build()
 
@@ -28,7 +28,7 @@ object DemonstrateFeatureTuning extends SparkMlModule {
     .setEstimator(pipeline)
     .setEvaluator(new MulticlassClassificationEvaluator())
 
-  // Find best combination of params:
+  // Find best combination of params and train with it:
   val tunedPipeline = trainValidation.fit(trainingData)
   /*---snip---*/
 }

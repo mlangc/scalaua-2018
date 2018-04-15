@@ -13,7 +13,7 @@ object DemonstrateHyperParamTuning extends SparkMlModule {
 
   // Assemble params to evaluate:
   val paramGrid = new ParamGridBuilder()
-    .addGrid(logReg.regParam, Array(1e-8, 1e-6, 1e-4))
+    .addGrid(logReg.regParam, Array(1e-7, 1e-5, 1e-3))
     .addGrid(logReg.elasticNetParam, Array(0.0, 0.5, 1.0))
     .build()
 
@@ -23,7 +23,7 @@ object DemonstrateHyperParamTuning extends SparkMlModule {
     .setEstimatorParamMaps(paramGrid)
     .setEvaluator(new BinaryClassificationEvaluator())
 
-  // Choose best set of params:
+  // Choose best set of params and train with it:
   val tunedModel = trainValidationSplit.fit(trainingData)
   /*---snip---*/
 }
